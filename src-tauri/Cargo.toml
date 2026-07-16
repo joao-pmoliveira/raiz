@@ -1,9 +1,10 @@
 [package]
 name = "raiz"
 version = "0.1.0"
-description = "A Tauri App"
-authors = ["you"]
+description = "Desktop-first, offline-first language immersion application."
+authors = ["João Oliveira"]
 edition = "2021"
+rust-version = "1.97"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
