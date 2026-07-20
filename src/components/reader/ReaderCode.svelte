@@ -1,0 +1,13 @@
+<script lang="ts">
+
+    interface Props { code: string };
+
+    let { code } : Props = $props();
+
+</script>
+
+<code>{code}</code>
+
+<style>
+
+</style>
