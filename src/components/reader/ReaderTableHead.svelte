@@ -1,21 +1,18 @@
 <script lang="ts">
-    import type { TableHead } from "../../routes/library/library";
-    import ReaderRendered from "./ReaderRendered.svelte";
+    import type { TableHeadBlock } from "../../routes/library/library";
+    import ReaderTableRow from "./ReaderTableRow.svelte";
 
-    interface Props { tableHead: TableHead }
+    interface Props { tableHead: TableHeadBlock }
 
     let { tableHead }: Props = $props();
 
 </script>
 
 <thead>
-    <tr>
-    {#each tableHead.children as block, index (index)}
-        <ReaderRendered {block}/>
+    {#each tableHead.row as block, index (index)}
+        <ReaderTableRow tableRow={block} isHeader={true}/>
     {/each}
-    </tr>
 </thead>
-
 
 <style>
 

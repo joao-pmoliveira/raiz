@@ -10,21 +10,22 @@
     let resource: Resource | null = $state(null);
 
     onMount(async () => {
-        resource = await invoke<Resource>("get_resource", {resourceId: params.id});
+        resource = await invoke<Resource>("get_resource", {uuid: params.id});
+        console.log(resource)
     })
 
 </script>
 
 {#if resource}
-    <h2>{resource.metadata.title}</h2>
-    <p>{resource.metadata.file_name}</p>
-    <p>{resource.metadata.resource_type}</p>
-
+    <div>
+        <h2>{resource.metadata.title}</h2>
+        <p>{resource.metadata.path}</p>
+        <p>{resource.metadata.resource_type}</p>
+    </div>
     <hr>
-
-    {#if resource.content?.blocks}
-        {#each resource.content.blocks as block, index (index)}
-            <ReaderRendered {block}/>
+    {#if resource.document?.blocks}
+        {#each resource.document.blocks as block, index (index)}
+            <ReaderRendered {block} />
         {/each}
     {/if}
 

@@ -7,7 +7,3 @@
 </script>
 
 <code>{code}</code>
-
-<style>
-
-</style>

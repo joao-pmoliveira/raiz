@@ -7,7 +7,3 @@
 </script>
 
 {text}
-
-<style>
-
-</style>

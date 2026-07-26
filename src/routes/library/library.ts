@@ -1,106 +1,105 @@
-export interface Library {
-    resources: Resource[];
+export interface Resource {
+    document: Document;
+    metadata: ResourceMetadata;
 }
 
-export interface Resource {
-    content: Document;
-    metadata: ResourceMetadata;
+export interface ResourceMetadata {
+    uuid: string;
+    title: string;
+    resource_type: ResourceType;
+    path: string;
+}
+
+export enum ResourceType {
+    Markdown = "Markdown",
 }
 
 export interface Document {
     blocks: DocumentBlock[];
 }
-export interface ResourceMetadata {
-    id: string;
-    title: string;
-    file_name: string;
-    resource_type: ResourceType;
-}
-
-enum ResourceType {
-    Markdown = "Markdown",
-}
 
 export type DocumentBlock =
+    | string
     | { Text: string }
-    | { Code: string }
-    | { Heading: Heading }
-    | { Paragraph: Paragraph }
-    | { ListItem: ListItem }
-    | { CodeBlock: CodeBlock }
-    | { BlockQuote: BlockQuote }
-    | { Link: Link }
-    | { Strong: Strong }
-    | { Emphasis: Emphasis }
-    | { Table: Table }
-    | { TableHead: TableHead }
-    | { TableRow: TableRow }
-    | { TableCell: TableCell }
-    | { Ruler: Ruler };
+    | { InlineCode: string }
+    | { Heading: HeadingBlock }
+    | { Paragraph: ParagraphBlock }
+    | { BlockQuote: BlockQuoteBlock }
+    | { CodeBlock: CodeBlockBlock }
+    | { List: ListBlock }
+    | { ListItem: ListItemBlock }
+    | { Link: LinkBlock }
+    | { Styled: StyledBlock }
+    | { Table: TableBlock }
+    | { TableHead: TableHeadBlock }
+    | { TableRow: TableRowBlock }
+    | { TableCell: TableCellBlock }
+    | { ThematicBreak: { _: string } }
+    | { SoftBreak: { _: string } }
+    | { HardBreak: { _: string } };
 
-export interface Heading {
-    type: "heading";
+export interface HeadingBlock {
     level: 1 | 2 | 3 | 4 | 5 | 6;
     children: DocumentBlock[];
 }
-
-export interface Paragraph {
-    type: "paragraph";
+export interface ParagraphBlock {
+    children: DocumentBlock[];
+}
+export interface CodeBlockBlock {
+    language: string;
+    lines: string[];
+}
+export interface BlockQuoteBlock {
+    kind: BlockQuoteBlockKind;
+    children: DocumentBlock[];
+}
+export interface TableBlock {
+    head: TableHeadBlock;
+    rows: TableRowBlock[];
+}
+export interface TableHeadBlock {
+    row: TableRowBlock[];
+}
+export interface TableRowBlock {
+    cells: TableCellBlock[];
+}
+export interface TableCellBlock {
+    children: DocumentBlock[];
+}
+export interface ListBlock {
+    kind: ListItemBlockKind;
+    items: ListItemBlock[];
+}
+export interface ListItemBlock {
+    children: DocumentBlock[];
+}
+export interface LinkBlock {
+    destination: string;
+    children: DocumentBlock[];
+}
+export interface StyledBlock {
+    style: StyledKind;
+    children: DocumentBlock[];
+}
+export interface ListItemBlock {
     children: DocumentBlock[];
 }
 
-export interface ListItem {
-    type: "list-item";
-    children: DocumentBlock[];
+export enum StyledKind {
+    Emphasis = "Emphasis",
+    Strong = "Strong",
+    Strikethrough = "Strikethrough",
+    Superscript = "Superscript",
+    Subscript = "Subscript",
 }
 
-export interface CodeBlock {
-    codeblock_type: null | { Fenced: string };
-    children: DocumentBlock[];
-}
-export interface BlockQuote {
-    blockquote_type: "None" | "Note" | "Tip" | "Important" | "Warning" | "Caution";
-    children: DocumentBlock[];
-}
-
-export interface Link {
-    type: "link";
-    destination_url: string;
-    children: DocumentBlock[];
-    id: string;
+export enum BlockQuoteBlockKind {
+    Note = "Note",
+    Tip = "Tip",
+    Important = "Important",
+    Warning = "Warning",
+    Caution = "Caution",
+    None = "None",
 }
 
-export interface Strong {
-    type: "strong";
-    children: DocumentBlock[];
-}
-export interface Emphasis {
-    type: "emphasis";
-    children: DocumentBlock[];
-}
-
-export interface Table {
-    type: "table";
-    children: DocumentBlock[];
-}
-export interface TableHead {
-    type: "table-head";
-    children: DocumentBlock[];
-}
-export interface TableRow {
-    type: "table-row";
-    children: DocumentBlock[];
-}
-export interface TableCell {
-    type: "table-cell";
-    children: DocumentBlock[];
-}
-export interface Ruler {
-    type: "ruler";
-}
-export interface SoftBreak {
-    type: "soft-break";
-}
-export interface HardBreak {
-    type: "hard-break";
-}
+export type ListItemBlockKind = { Ordered: { start: number } } | { Unordered: { _: string } };

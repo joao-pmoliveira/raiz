@@ -1,8 +1,8 @@
 <script lang="ts">
-    import type { Heading } from "../../routes/library/library";
+    import type { HeadingBlock } from "../../routes/library/library";
     import ReaderRendered from "./ReaderRendered.svelte";
 
-    interface Props { heading: Heading };
+    interface Props { heading: HeadingBlock };
 
     let { heading } : Props = $props();
 
@@ -24,5 +24,22 @@
 </svelte:element>
 
 <style>
-
+    h1 {
+        font-size: 1.8rem;
+    }
+    h2 {
+        font-size: 1.6rem;
+    }
+    h3 {
+        font-size: 1.4rem;
+    }
+    h4 {
+        font-size: 1.2rem;
+    }
+    h5 {
+        font-size: 1.1rem;
+    }
+    h6 {
+        font-size: 1rem;
+    }
 </style>

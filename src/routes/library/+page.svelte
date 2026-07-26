@@ -1,21 +1,24 @@
 <script lang="ts">
     import { invoke } from "@tauri-apps/api/core";
-    import { type Library, type Resource } from "./library";
+    import type { ResourceMetadata, Resource } from "./library";
     import { onMount } from "svelte";
     import { resolve } from "$app/paths";
 
-    let resources : Resource[] = $state([])
+    let resources : ResourceMetadata[] = $state([])
 
     onMount(get_library)
 
-    async function get_resource() {
+    async function select_resource() {
         await invoke<Resource>("select_resource");
         get_library();
     }
 
     async function get_library() {
-        const lib = await invoke<Library>("get_library");
-        resources = lib.resources
+        try {
+            resources = await invoke<ResourceMetadata[]>("get_library");
+        } catch (err) {
+            console.log(err);
+        }
     }
 
 </script>
@@ -23,12 +26,15 @@
 <div>
     <h1>Library</h1>
     <p>You don't have any content yet.</p>
-    <button onclick={() => get_resource()}>Import Book</button>
+    <button onclick={() => select_resource()}>Import Book</button>
     <ul>
-        {#each resources as resource (resource.metadata.title)}
+        {#each resources as resource (resource.title)}
             <li>
-                <a href={resolve("/reader/[id]", {id: resource.metadata.id})}>{resource.metadata.title}</a>
+                <a href={resolve("/reader/[id]", {id: resource.uuid})}>{resource.title}</a>
             </li>
         {/each}
     </ul>
 </div>
+
+<style>
+</style>

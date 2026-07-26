@@ -1,10 +1,19 @@
 <script lang="ts">
-    import type { ListItem } from "../../routes/library/library";
+    import type { ListItemBlock } from "../../routes/library/library";
     import ReaderRendered from "./ReaderRendered.svelte";
 
-    interface Props { listItem: ListItem };
+    interface Props { listItem: ListItemBlock };
 
-    let { listItem } : Props = $props();
+    let { listItem }: Props = $props();
 </script>
 
-<li>{#each listItem.children as block, index (index)}<ReaderRendered {block}/>{/each}</li>
+<li>
+    {#each listItem.children as block, index (index)}
+        <ReaderRendered {block} />
+    {/each}
+</li>
+
+
+<style>
+
+</style>
